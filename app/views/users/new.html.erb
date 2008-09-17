@@ -13,6 +13,9 @@
     <%= password_field :password_confirmation, :label => "Password Confirmation" %>
   </p>
   <p>
+    <%= recaptcha_tags if Object.const_defined?(:Ambethia) %>
+  </p>
+  <p>
     <%= submit "Sign up" %>
   </p>
 <% end =%>

@@ -21,10 +21,11 @@ module MerbAuth
 
         def create
           cookies.delete :auth_token
+          @use_recaptcha = Object.const_defined?(:Ambethia)
 
           @ivar = MA[:user].new(params[MA[:single_resource]])
           set_ivar
-          if @ivar.save
+          if (!@use_recaptcha || verify_recaptcha(@ivar)) && @ivar.save
             self.current_ma_user = @ivar unless MA[:use_activation]
             redirect_back_or_default('/')
 
