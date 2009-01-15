@@ -1,5 +1,5 @@
 <%= error_messages_for @ivar %>
-<%= form_for @ivar, :action => url(MA[:routes][:user][:index]) do %>
+<%= form_for @ivar, :action => url(:merb_auth_users) do %>
   <p>
     <%= text_field :email, :label => "Email" %>
   </p>

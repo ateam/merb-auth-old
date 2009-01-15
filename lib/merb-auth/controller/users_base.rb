@@ -25,7 +25,9 @@ module MerbAuth
 
           @ivar = MA[:user].new(params[MA[:single_resource]])
           set_ivar
-          if (!@use_recaptcha || verify_recaptcha(@ivar, :failure_message => nil)) && @ivar.save
+          #if (!@use_recaptcha || verify_recaptcha(@ivar, :failure_message => nil)) && @ivar.save
+          if (!@use_recaptcha || verify_recaptcha(@ivar, :failure_message => nil)) && @ivar.valid?
+            @ivar.save
             self.current_ma_user = @ivar unless MA[:use_activation]
             redirect_back_or_default('/')
 
