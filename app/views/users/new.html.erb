@@ -1,5 +1,5 @@
 <%= error_messages_for @ivar %>
-<%= form_for @ivar, :action => url(MA[:routes][:user][:index]) do %>
+<%= form_for @ivar, :action => url(:merb_auth_users) do %>
   <p>
     <%= text_field :email, :label => "Email" %>
   </p>
@@ -11,6 +11,9 @@
   </p>
   <p>
     <%= password_field :password_confirmation, :label => "Password Confirmation" %>
+  </p>
+  <p>
+    <%= recaptcha_tags if Object.const_defined?(:Ambethia) %>
   </p>
   <p>
     <%= submit "Sign up" %>

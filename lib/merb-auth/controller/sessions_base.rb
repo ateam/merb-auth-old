@@ -31,7 +31,7 @@ module MerbAuth
         def destroy
           self.current_ma_user.forget_me if logged_in?
           cookies.delete :auth_token
-          session.delete
+          session.clear
           redirect_back_or_default('/')
         end
       end # InstanceMethods

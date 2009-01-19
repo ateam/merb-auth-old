@@ -122,6 +122,7 @@ module MerbAuth
         end
 
         def deliver_email(action, params)
+          return if defined?(Merb) && Merb.testing?
           from = MA[:from_email]
           MA::UserMailer.dispatch_and_deliver(action, params.merge(:from => from, :to => self.email), MA[:single_resource] => self)
         end

@@ -72,7 +72,10 @@ module MerbAuth
 
             before_save :encrypt_password
             before_validation :set_login
-            before_create :make_activation_code
+            #before_create :make_activation_code
+            before_save do
+              make_activation_code if id.nil?
+            end
             after_create :send_signup_notification
           end
         end

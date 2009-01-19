@@ -5,7 +5,7 @@ require 'merb-core/version'
 require 'merb-core/test/tasks/spectasks'
 require 'merb-core/tasks/merb_rake_helper'
 
-NAME = "merb-auth"
+NAME = "a-team-merb-auth"
 AUTHOR = "Merb Core"
 EMAIL = "has.sox@gmail.com"
 HOMEPAGE = "http://merbivore.com/"
@@ -37,7 +37,7 @@ end
 
 desc "Install MerbAuth as a gem"
 task :install => [:package] do
-  sh %{#{sudo} gem install pkg/#{NAME}-#{GEM_VERSION} --no-update-sources}
+  sh %{sudo gem install pkg/#{NAME}-#{GEM_VERSION} --no-update-sources}
 end
 
 namespace :jruby do

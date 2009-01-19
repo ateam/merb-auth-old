@@ -66,7 +66,7 @@ module MerbAuth
           case content_type
           when :html
             store_location
-            redirect url(:login)
+            redirect url(:merb_auth_login)
           when :xml
             basic_authentication.request
           end

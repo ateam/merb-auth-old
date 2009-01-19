@@ -21,6 +21,7 @@ module MerbAuth
           end
                   
           def find_active_with_conditions(conditions)
+            #filter(conditions).exclude(:activated_at => nil, :special => true).first
             filter(conditions).exclude(:activated_at => nil).first
           end
         
