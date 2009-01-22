@@ -159,6 +159,8 @@ if defined?(Merb::Plugins)
       scope.match("/signup").to(:controller => "Users",    :action => "new"    ).name(:signup)
       scope.match("/login" ).to(:controller => "sessions", :action => "create" ).name(:login)
       scope.match("/logout").to(:controller => "sessions", :action => "destroy").name(:logout)
+      scope.match("/registered").to(:controller => "users", :action => "registered").name(:registered)
+      scope.match("/activated").to(:controller => "users", :action => "activated").name(:activated)
     end
     
   end

@@ -32,19 +32,19 @@ describe MA::Users do
   
   it "should provide a current_ma_user method" do
     MA::Users.new({}).should respond_to(:current_ma_user)
-    MA::Users.new({}).should respond_to(:current_user)
+    MA::Users.new({}).should respond_to(:current_ma_user)
   end
   
   it "should provide a current_user method" do
     MA::Users.new({}).should respond_to(:current_ma_user=)
-    MA::Users.new({}).should respond_to(:current_user=)
+    MA::Users.new({}).should respond_to(:current_ma_user=)
   end
   
   it 'allows signup' do
      # lambda do
      users = User.count
        controller = create_user
-       controller.should redirect      
+       controller.should redirect_to('/merb-auth/registered')
      User.count.should == (users + 1)
      # end.should change(User, :count).by(1)
    end
@@ -86,14 +86,14 @@ describe MA::Users do
      @user = controller.assigns(:user)
      User.authenticate('aaron@example.com', 'test').should be_nil
      controller = get "/merb-auth/users/activate/#{@user.activation_code}" 
-     controller.should redirect_to("/")
+     controller.should redirect_to("/merb-auth/activated")
      User.authenticate('aaron@example.com', 'test').should_not be_nil
    end
 
   it "should log the user in automatically on creation if :use_activation is false" do
     MA[:use_activation] = false
     dispatch_to(MA::Users, :create, :user => {:email => "aaron@example.com", :password => "test", :password_confirmation => "test"}) do |c|
-      u = mock("user")
+      u = mock("user", :valid? => true)
       User.should_receive(:new).and_return(u)
       u.should_receive(:save).and_return(true)
       c.should_receive(:current_ma_user=).with(u)
@@ -103,7 +103,7 @@ describe MA::Users do
   it "should not log the user in automatically on creation if :use_activation is true" do
     MA[:use_activation] = true
     dispatch_to(MA::Users, :create, :user => {:email => "aaron@example.com", :password => "test", :password_confirmation => "test"}) do |c|
-      u = mock("user")
+      u = mock("user", :valid? => true)
       User.should_receive(:new).and_return(u)
       u.should_receive(:save).and_return(true)
       c.should_not_receive(:current_ma_user=)

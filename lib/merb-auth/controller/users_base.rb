@@ -29,8 +29,7 @@ module MerbAuth
           if (!@use_recaptcha || verify_recaptcha(@ivar, :failure_message => nil)) && @ivar.valid?
             @ivar.save
             self.current_ma_user = @ivar unless MA[:use_activation]
-            redirect_back_or_default('/')
-
+            redirect url(:merb_auth_registered)
           else
             render :new
           end
@@ -42,7 +41,7 @@ module MerbAuth
             Merb.logger.info "Activated #{current_ma_user}"
             current_ma_user.activate
           end
-          redirect_back_or_default('/')
+          redirect url(:merb_auth_activated)
         end
 
         private
