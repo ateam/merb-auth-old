@@ -31,6 +31,7 @@ describe MA::Sessions, "Index action" do
     @quentin = User.create(valid_user_hash.with(:email => "quentin@example.com", :password => "test", :password_confirmation => "test"))
     @controller = MA::Sessions.new(fake_request)
     @quentin.activate
+    MA[:redirect_after_login] = nil
   end
   
   it "should have a route to Sessions#new from '/login'" do
@@ -70,6 +71,12 @@ describe MA::Sessions, "Index action" do
     controller.session[:user].should_not be_nil
     controller.session[:user].should == @quentin.id
     controller.should redirect_to("/")
+  end
+
+  it 'logins and redirects to profile' do
+    MA[:redirect_after_login] = '/profile'
+    controller = post "/merb-auth/login", :email => 'quentin@example.com', :password => 'test'
+    controller.should redirect_to("/profile")
   end
    
   it 'fails login and does not redirect' do
