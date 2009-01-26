@@ -35,7 +35,7 @@ module MerbAuth
           self.save
 
           # send mail for activation
-          send_activation_notification  if MA[:use_activation]
+          send_activation_notification  if MA[:use_activation] && !MA[:no_activation_email]
         end
         
         # Returns true if the user has just been activated.

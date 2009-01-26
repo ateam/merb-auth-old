@@ -1,5 +1,5 @@
 GEM_NAME = "merb-auth-old"
-GEM_VERSION = "0.0.3"
+GEM_VERSION = "0.0.4"
 
 Gem::Specification.new do |s| 
   s.name = GEM_NAME
