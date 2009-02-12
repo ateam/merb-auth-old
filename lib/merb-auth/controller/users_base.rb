@@ -40,8 +40,10 @@ module MerbAuth
           if logged_in? && !current_ma_user.activated?
             Merb.logger.info "Activated #{current_ma_user}"
             current_ma_user.activate
+            redirect url(:merb_auth_activated)
+          else
+            redirect url(:merb_auth_activated, :fail => 'true')
           end
-          redirect url(:merb_auth_activated)
         end
 
         private

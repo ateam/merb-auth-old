@@ -90,6 +90,13 @@ describe MA::Users do
      User.authenticate('aaron@example.com', 'test').should_not be_nil
    end
 
+   it 'should fail activation because of invalid or not existing code' do
+     controller = create_user(:email => "aaron@example.com", :password => "test", :password_confirmation => "test")
+     @user = controller.assigns(:user)
+     controller = get "/merb-auth/users/activate/#{@user.activation_code}__"
+     controller.headers['Location'].should == "/merb-auth/activated?fail=true"
+   end
+
   it "should log the user in automatically on creation if :use_activation is false" do
     MA[:use_activation] = false
     dispatch_to(MA::Users, :create, :user => {:email => "aaron@example.com", :password => "test", :password_confirmation => "test"}) do |c|
