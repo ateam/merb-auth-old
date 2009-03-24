@@ -49,7 +49,7 @@ describe MA::Sessions, "Index action" do
   end
   
   it "should have a named route :login" do
-    @controller.url(:login).should == "/merb-auth/login"
+    @controller.url(:merb_auth_login).should == "/merb-auth/login"
   end
   
   it "should have route to Sessions#destroy from '/logout' via delete" do
@@ -78,6 +78,14 @@ describe MA::Sessions, "Index action" do
     controller = post "/merb-auth/login", :email => 'quentin@example.com', :password => 'test'
     controller.should redirect_to("/profile")
   end
+
+  it 'should return to previous uri' do
+    MA[:redirect_after_login] = '/profile'
+    controller = post "/merb-auth/login", :email => 'quentin@example.com', :password => 'test' do |c|
+      c.session[:return_to] = '/login'
+    end
+    controller.should redirect_to("/login")
+  end
    
   it 'fails login and does not redirect' do
     controller = post "/merb-auth/login", :email => 'quentin@example.com', :password => 'bad password'
@@ -103,7 +111,7 @@ describe MA::Sessions, "Index action" do
   
   it 'deletes token on logout' do
     controller = get("/merb-auth/logout") {|request| request.stub!(:current_user).and_return(@quentin) }
-    controller.cookies["auth_token"].should == nil
+    controller.cookies["auth_token"].should be_blank
   end
   
   

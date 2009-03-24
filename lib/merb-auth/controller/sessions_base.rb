@@ -23,7 +23,9 @@ module MerbAuth
               cookies[:auth_token] = { :value => self.current_ma_user.remember_token , :expires => expires }
             end
             #redirect_back_or_default('/')
-            redirect MA[:redirect_after_login] || '/'
+            #redirect MA[:redirect_after_login] || '/'
+
+            redirect_back_or_default(MA[:redirect_after_login] || '/')
           else
             render :new
           end
