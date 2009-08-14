@@ -125,7 +125,6 @@ module MerbAuth
           return if defined?(Merb) && Merb.testing?
           from = MA[:from_email]
 
-          params[:text] = Base64.encode64(unix2dos(params[:text]))
           params[:subject] = unix2dos(params[:subject])
 
           MA::UserMailer.dispatch_and_deliver(action, params.merge(
