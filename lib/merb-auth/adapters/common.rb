@@ -124,10 +124,25 @@ module MerbAuth
         def deliver_email(action, params)
           return if defined?(Merb) && Merb.testing?
           from = MA[:from_email]
-          MA::UserMailer.dispatch_and_deliver(action, params.merge(:from => from, :to => self.email), MA[:single_resource] => self)
+
+          params[:text] = Base64.encode64(unix2dos(params[:text]))
+          params[:subject] = unix2dos(params[:subject])
+
+          MA::UserMailer.dispatch_and_deliver(action, params.merge(
+            :from => from, 
+            :to => self.email,
+            "Mime-Version" => "1.0",
+            "Content-Type" => %Q{text/plain; charset="UTF-8"},
+            "Content-Transfer-Encoding" => 'base64'
+          ), MA[:single_resource] => self)
         end
         
         private
+
+        def unix2dos(text)
+          text.gsub(%r{\n$|\r\n$}, "\r\n")
+        end
+
         def set_activated_data!
           @activated = true
           self.activated_at = DateTime.now
