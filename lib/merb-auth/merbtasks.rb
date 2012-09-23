@@ -109,6 +109,7 @@ namespace :slices do
     
     namespace :spec do
       
+=begin
       slice_root = File.expand_path(File.join(File.dirname(__FILE__), '..', '..'))
       
       task :explain do
@@ -161,6 +162,7 @@ namespace :slices do
         t.libs = ['lib', 'server/lib' ]
         t.spec_files = Dir["#{slice_root}/spec/**/*_spec.rb"].sort
       end
+=end
       
     end
     
